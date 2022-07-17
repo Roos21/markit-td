@@ -25,7 +25,11 @@ urlpatterns = [
     path('',include('accueil.urls')),
     path('accueil/',include('accueil.urls')),
     path('client/',include('client.urls')),
-
+    path('',include('client.urls')),
+    path('', include('apropos.urls')),
+    path('', include('services.urls')),
+    path('', include('fournisseur.urls')),
+    path('restaurant/',include('restaurant.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

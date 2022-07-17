@@ -1,8 +1,10 @@
 from django.urls import path,include
 from client import views
 urlpatterns = [
-    path('add_to_card/', views.mk_client_add_to_card),
-    path('add_client/', views.mk_client_add),
-    path('add_client/save/', views.mk_client_save),
-    path('check_password',views.mk_check_password,name='check_password'),
+    path('login/', views.mk_client_login),
+    path('ajouter-client/', views.mk_client_ajouter),
+    path('page/', views.mk_client_page),
+    path('ajouter-au-panier',views.mk_ajouter_au_panier),
+    path('abandonner',views.mk_client_abandonner),
+    path('reserver/',views.mk_commander),
 ]

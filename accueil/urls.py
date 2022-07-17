@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.mk_index),
     path('filtre',views.mk_filter,name='filtre'),
     path('accueil/produit/',views.mk_produit_info),
+    path('logout/',views.mk_logout),
 ]

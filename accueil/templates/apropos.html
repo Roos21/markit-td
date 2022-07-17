@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+<link rel="stylesheet" href="{% static 'css/mk_css.css' %}/" />
+{% block news %}
+<style>
+    .alinea {
+        text-align: justify;
+        font-size: 13pt;
+        margin-left: 1em;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <fieldset>
+            <legend>
+                <h2 class="text-center">Apropos du site</h2>
+            </legend>
+            <p class="paragraphe-apropos">
+                Markit est une plateforme de demande et d'offre. C'est un site
+                conçu pour repondre aux demandes des consommateurs en leur offrant
+                des possibilités d'en procurer ce dont ils ont besoin depuis leur Smartphone.
+            </p>
+            <li class="alinea">Il permet aux bricoleurs d'offrirleurs services à toute personne qui les solicite</li>
+            <li class="alinea">Il permet à toute personne qui dans le besoin d'une main d'oevre pour un sevice
+                spécifique de trouver la personne qu'il faut
+            </li>
+            <li class="alinea">Il donne une visibilité aux différentes entreprises de la place en faisant la publicité
+                de leurs products
+            </li>
+            <li class="alinea">Markit facilite également la vente des produits en ligne des différentes entreprises avec
+                des services de livraison sur demande
+            </li>
+            <li class="alinea">La location et l'immobilier ne sont pas du reste. Avec Markit, c'est vos besoin avant
+                tout.</li>
+        </fieldset>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <fieldset>
+            <legend>
+                <marquee behavior="5000" direction="right"><img src="/media/mk_pubs/pan.svg" width="54"></marquee>
+            </legend>
+            <img src="/media/mk_pubs/img-1.png" alt="Shoping">
+        </fieldset>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <fieldset>
+            <legend>
+                <h2 class="text-center">Le numérique</h2>
+            </legend>
+            <img src="/media/mk_pubs/None-p18.jpeg" alt="Numérique" width="100%" height="150px"
+                style="margin-bottom: 2em;">
+        </fieldset>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <fieldset>
+            <legend>
+                <h2 class="text-center">Qui sommes nous?</h2>
+            </legend>
+            <p class="paragraphe-apropos">
+                Nous sommes un groupe de développeurs et technicien en informatique spécialisés dans
+                la développement des applications, la conception des sites et en administration réseau et système
+            </p>
+            <h2 class="text-center">Une commande, zéro déplacement!!!</h2>
+        </fieldset>
+    </div>
+</div>
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% endblock %}

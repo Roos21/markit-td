@@ -62,7 +62,8 @@ class Fournisseur(models.Model):
         return self.nom
 class Produit(models.Model):
     intitule    = models.CharField(max_length=100)
-    prix        = models.FloatField(max_length=11)
+    prix        = models.FloatField(max_length=11, default=0.00)
+    quantite    = models.IntegerField(default=1)
     image       = models.ImageField(upload_to='mk_produits/')
     description = models.CharField(max_length=255)
     mu          = models.CharField(max_length=100, verbose_name="Mode d'Utilisation")
@@ -71,7 +72,7 @@ class Produit(models.Model):
     fabriquant  = models.CharField(max_length=100)
     made_in     = models.CharField(max_length=50)
     pp          = models.CharField(max_length=2, verbose_name="Priorité de présentation")
-    vue         = models.IntegerField()
+    vue         = models.IntegerField(default=0)
     fournisseur = models.ForeignKey(Fournisseur,on_delete=models.CASCADE)
     categorie_produit = models.ForeignKey(CategorieProduit,on_delete=models.CASCADE)
     def __str__(self):
@@ -89,19 +90,28 @@ class Consommateur(models.Model):
         return self.nom
 class TypeService(models.Model):
     service    = models.CharField(max_length=100)
+    description = models.TextField(max_length=2048)
+    image = models.ImageField(upload_to='mk_service/')
+    
     def __str__(self):
         return self.service
+    
 class Solliciter(models.Model):
+    probleme     = models.CharField(max_length=250)
+    lieu         = models.CharField(max_length=250)
+    contact      = models.IntegerField()
     type_service = models.ForeignKey(TypeService,on_delete=models.CASCADE)
     consommateur = models.ForeignKey(Consommateur, on_delete=models.CASCADE)
     def __str__(self):
         return self.consommateur+":"+self.type_service
+
 class Livreur(models.Model):
     nom     = models.CharField(max_length=100)
     prenom  = models.CharField(max_length=100)
     contact = models.CharField(max_length=100)
     mail    = models.CharField(max_length=100)
     adresse = models.CharField(max_length=200)
+    disponilité = models.BooleanField(default=False)
     
     def __str__(self):
         return self.nom+" "+self.prenom
@@ -114,7 +124,8 @@ class Commentaire(models.Model) :
     
     def __str__(self): 
         return self.consommateur+":"+self.commentaire
-    
+
+#Achat 
 class Resrevation(models.Model):
     client   = models.ForeignKey(Consommateur,on_delete=models.CASCADE)
     payement = models.ForeignKey(Payement,on_delete=models.CASCADE)
@@ -122,8 +133,10 @@ class Resrevation(models.Model):
     produit  = models.ForeignKey(Produit,on_delete=models.CASCADE)
     date     = models.DateTimeField(auto_now_add=True,auto_now=False)
     quantite = models.IntegerField(default=0)
+    reglement = models.IntegerField(default=1)
+    livrer = models.IntegerField(default=1)
     def __str__(self):
-        return self.client+":"+self.produit+":"+self.livreur
+        return self.client.nom+":"+self.produit.intitule
     
 class Publicite(models.Model):
     nom_entreprise = models.CharField(max_length=100, verbose_name="nom")
@@ -165,3 +178,53 @@ class Service (models.Model) :
 
     def __str__(self):
         return self.service
+    
+    
+class Panier(models.Model) :
+    
+    produit = models.ForeignKey(Produit,on_delete=models.CASCADE)
+    consommateur = models.ForeignKey(Consommateur, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, auto_now=False)
+    quantite = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return self.produit.intitule
+
+from ctypes import addressof
+from django.db import models
+from django.forms import PasswordInput
+
+# Create your models here.l
+class  Restaurant(models.Model):
+    nom = models.CharField(max_length=100)
+    adresse = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='mk_restaurant_logo/')
+    email = models.EmailField(max_length=100)
+    login = models.CharField(max_length=255)
+    password = models.CharField(max_length=128)
+    specialite = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nom
+
+class Plat(models.Model):
+    nom = models.CharField(max_length=100)
+    prix = models.FloatField(default=0)
+    note = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='mk_plat_image/')
+
+    def __str__(self):  
+        return  self.nom
+
+class ReservationPlat(models.Model):
+    plat = models.ForeignKey(Plat, on_delete=models.CASCADE)
+    consommateur = models.ForeignKey(Consommateur, on_delete=models.CASCADE)
+    livreur = models.ForeignKey(Livreur, on_delete=models.CASCADE)
+    payement = models.ForeignKey(Payement,on_delete=models.CASCADE)
+    livrer = models.IntegerField(default=1)
+    date     = models.DateTimeField(auto_now_add=True,auto_now=False)
+    quantite = models.IntegerField(default=0)
+    reglement = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return self.plat.nom

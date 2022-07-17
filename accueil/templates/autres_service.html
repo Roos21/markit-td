@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+<div class="row container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center title-h1">
+                Autre service
+            </h1>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+                    {{from_solicitation_service.as_p}}
+                    <input type = "submit" value = "Envoyer" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% if before_post %}
+    {% if error %}
+        <p class="alert alert-danger row container" style="margin-left:1rem; font-style: italic;">{{error}}</p>
+    {% endif %}
+    <div class="container row" id="fournisseur-container">
+    <div class="col-md-6 col-xs-6 col-lg-6" id="fournisseur-description">
+        <div class="text">
+            <h3>Inscription</h3>
+            <p>Inscrivez vous à travers ce formulaire pour avoir un compte fournisseur qui vous permet de 
+                vendre vos produit ou d'exposer vos services en ligne.</p>
+            </p>
+        </div>
+        <div class="text">        
+            <h3>Produits</h3>
+            <p>Configurer ensuite votre compte fournisseur pour disposer des services et des produits aux clients.</p>
+        </div>
+        <div class="text">
+            <h3>Achats</h3>
+            <p>Nous endossons la charge de repondre aux commandes des clients</p>
+        </div>
+        <div class="text">
+            <h3>Livraison</h3>
+            <p>Nous nous occupons de confier la charge de prendre votre marchandise pour ensuite livrer au client concerné.</p>
+        </div>
+    </div>
+    <div class="col-offset-1 col-md-6 col-sm-6 col-xs-11 col-lg-6" id="fournisseur-form">
+        <h2 class="page-header fw-bold page text-center">FOURNISEUR</h2>
+        <form method="post" enctype="multipart/form-data" action>
+            {% csrf_token %}
+            {{ mk_fournisseur_form.as_p }}
+            <div class="form-group row" id="fournisseur-btn">
+                <input type="reset" class="btn btn-danger" >
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+        <br class="clear"></br>
+        <div class="">
+            <p class="fs-2">Si vous disposer d'un compte fournisseur, veillez cliquez <a href="login">ici</a> pour vous connecter</p>
+        </div>
+    </div>
+    </div>
+{% else %}
+    <div class="row text-center fw-bold" id="validation-info">
+         S'il vous plait, veillez consulter votre compte email afin de valider votre compte... 
+    </div>
+{% endif %}
+{% endblock %}

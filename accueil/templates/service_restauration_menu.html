@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+{% block news %}
+<div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center title-h1">
+                Service de restauration
+            </h1>
+        </div>
+        {% for menu in mk_plat %}
+        <div class="panel-body">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                <fieldset>
+                    <legend class="sr-t">
+                    	{{ menu.nom }}             
+                    </legend>
+                    <img src="{{menu.image.url}}" alt="Engin" width="150" height="150"
+                            style="margin-bottom: 2px;" class="img">
+                            <br>
+                    <tr><td>Prix : </td><td>{{menu.prix}}</td></tr>
+                    <br>
+                    <tr><td>note : </td><td>{{menu.note}}</td></tr>
+                    <br>
+                    <a href="/service/commander" class="btn btn-primary" style="color: white; margin-top: 2em;">Commander</a>
+                </fieldset>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% endblock %}

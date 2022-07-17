@@ -1,0 +1,409 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+<div class="container">
+  <div class="row" style="background-color: #f8f8f8; padding:1rem; margin-bottom:1rem;">
+    <div class="col-md-1">
+      <img width="50px" height="50px" style="border-radius: 50%; margin-top: 1rem;"
+        src="{{current_fournisseur.logo.url}}" alt="profile">
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 col">
+      <h4>Profile</h4>
+      <p>{{ current_fournisseur.nom }}</p>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 col">
+      <h4>Chiffre d'affaire</h4>
+      <span class="text">{{chiffre_affaire}} F CFA</span>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 col">
+      <h4>Client</h4>
+      <span class="text">{{clients}} Clients</span>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 col">
+      <h4>Classification</h4>
+      <span class="text">{{rang}}</span>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 col">
+      <h4>Note</h4>
+      <span class="text">4.5</span>
+    </div>
+    <a class="btn btn-lg btn-danger" href="/logout" style="margin-top: 1rem; border-radius: 50%;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+        <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+      </svg>
+    </a>
+  </div>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#fournisseur-products">Produits</a></li>
+    <li><a data-toggle="tab" href="#fournisseur-add">Ajouter</a></li>
+    <li><a data-toggle="tab" href="#fournisseur-history">Historique</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="fournisseur-products" class="tab-pane fade in active">
+      <br>
+      <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Désignation</th>
+            <th scope="col">Prix Unitaire</th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products.object_list %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{product.intitule}}</td>
+            <td>{{product.prix}}</td>
+            <td>{{product.quantite}}</td>
+            <td class="col-lg-2">
+              <!-- Button trigger modal -->
+              <button type="button" onclick="delete_product('{{product.id}}')" class="btn btn-danger"
+                id="mod-delete-{{product.id}}" data-bs-toggle="modal" data-bs-target="#m-delete-{{product.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                </svg>
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="mc-delete-{{product.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel"><img src="{% static 'img/logo.png' %}"
+                          width="100"></h5>
+                      <button type="button" class="btn-close mod-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Voullez-vous vraiment éfacer ce produit ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary mod-close" data-bs-dismiss="modal">Non</button>
+                      <a type="button" class="btn btn-primary" href="?action=1&produit={{product.id}}">Oui</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <a class="btn btn-success" onclick="edit_product('{{product.id}}')" id="mod-edit-{{product.id}}"
+                aria-controls="#mc-edit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg>
+              </a>
+              <!-- Modal -->
+              <div class="modal fade" id="mc-edit-{{product.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form class="modal-content" method="post" action="?action=2&produit={{product.id}}"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel"><img src="{% static 'img/logo.png' %}"
+                          width="100"></h5>
+                      <button type="button" class="btn-close mod-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        <label for="intitule">Intitulé&nbsp;:</label>
+                        <input type="text" name="intitule" maxlength="100" class="form-control" id="intitule"
+                          value="{{product.intitule}}" placeholder="" required="">
+                      </p>
+                      <p>
+                        <label for="prix">Prix&nbsp;:</label>
+                        <input type="number" name="prix" value="0.0" step="any" class="form-control" id="prix"
+                          value="{{product.prix}}" placeholder required="">
+                      </p>
+                      <p>
+                        <label for="quantite">Quantité&nbsp;:</label>
+                        <input type="number" name="quantite" value="1" class="form-control" id="quantite"
+                          value="{{product.quantite}}" required="">
+                      </p>
+                      <p>
+                        <label for="image">Image&nbsp;:</label>
+                        <input type="file" name="image" accept="image/*" class="form-control" id="image"
+                          value="{{product.image}}" required="">
+                      </p>
+                      <p>
+                        <label for="description">Description&nbsp;:</label>
+                        <input type="text" name="description" maxlength="255" class="form-control"
+                          value="{{product.description}}" id="description" required="">
+                      </p>
+                      <p>
+                        <label for="mu">Mode d'usage&nbsp;:</label>
+                        <input type="text" name="mu" maxlength="100" class="form-control" id="mu" required=""
+                          value="{{product.mu}}">
+                      </p>
+                      <p>
+                        <label for="id_categorie_produit">Catégorie&nbsp;:</label>
+                        <select name="categorie_produit" class="form-control" required="" id="id_categorie_produit">
+                          <option value="" selected="">---------</option>
+                          {% for category in categories %}
+                          {% if category.id == product.categorie_produit.id %}
+                          <option value="{{ category.id }}" selected>{{category.categorie }}</option>
+                          {% else %}
+                          <option value="{{ category.id }}">{{category.categorie }}</option>
+                          {% endif %}
+                          {% endfor %}
+                        </select>
+                      </p>
+                      <p>
+                        <label for="id_dp">Date de péremption&nbsp;:</label>
+                        <input type="date" name="dp" class="form-control col-md-3 col-sm-3 col-3" required=""
+                          value="{{product.dp}}" id="id_dp">
+                      </p>
+                      <p>
+                        <label for="id_marque">De marque&nbsp;:</label>
+                        <input type="text" name="marque" maxlength="50" class="form-control" required=""
+                          value="{{product.marque}}" id="id_marque">
+                      </p>
+                      <p>
+                        <label for="id_fabriquant">Fabriquant&nbsp;:</label>
+                        <input type="text" name="fabriquant" maxlength="100" class="form-control" required=""
+                          id="id_fabriquant" value="{{product.fabriquant}}">
+                      </p>
+                      <p>
+                        <label for="id_made_in">Made in&nbsp;:</label>
+                        <input type="text" name="made_in" maxlength="50" class="form-control" required=""
+                          value="{{product.made_in}}" id="id_made_in">
+                      </p>
+                      <p>
+                        <label for="id_pp">Priorité de publicité&nbsp;:</label>
+                        <input type="text" name="pp" maxlength="2" class="form-control" required="" id="id_pp"
+                          value="{{product.pp}}">
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-primary" />
+                      <input type="reset" class="btn btn-danger" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <button onclick="add_product('{{product.id}}')" class="btn btn-primary" id="mod-add-{{product.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-plus-square" viewBox="0 0 16 16">
+                  <path
+                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="mc-add-{{product.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <input type="text" id="current_quantite_{{product.id}}" value="{{product.quantite}}" hidden>
+                  <form class="modal-content" method="get" action>
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel"><img src="{% static 'img/logo.png' %}"
+                          width="100"></h5>
+                      <button type="button" class="btn-close mod-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <label for="quantite" class="form-cntrol-label">Quantité à ajouter ou préfixer la valeur du signe
+                        de soustraction (-) pour le diminuer :</label>
+                      <input type="number" onchange="OnModalFieldValueChanged(this, '{{product.id}}')"
+                        onkeyup="OnModalFieldKeyUp(this, '{{product.id}}')" id="quantite-{{product.id}}" name="quantite"
+                        class="form-control">
+                      <input type="number" id="{{product.id}}" name="produit" class="form-control hidden"
+                        value="{{product.id}}">
+                      <span style="width:500px;">Quantité à jour :</span>
+                      <span id="result-panel-{{product.id}}">{{product.quantite}}</span>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+          <li class="page-item {{ products.has_previous|yesno:',disabled' }}">
+            <a class="page-link" href="?page=1" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                <path fill-rule="evenodd"
+                  d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+              </svg>
+            </a>
+          </li>
+          {% if products.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{products.previous_page_number}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-bar-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0zM4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z" />
+              </svg>
+            </a>
+          </li>
+          {% endif %}
+          <li class="page-item"><span class="page-link" href="#">{{products.number}} of {{paginator.num_pages}}</span>
+          </li>
+          {% if products.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{products.next_page_number}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-bar-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+              </svg>
+            </a>
+          </li>
+          {% endif %}
+          <li class="page-item {{ products.has_next|yesno:',disabled' }}">
+            <a class="page-link" href="?page={{paginator.num_pages}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+                <path fill-rule="evenodd"
+                  d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div id="fournisseur-add" class="tab-pane row fade">
+      <h3 class="page-header text-uppercase text-center fw-bold">Ajouter des nouveux produits à votre liste de produits
+      </h3>
+      <form method="post" action class="container" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-offset-1 col-sm-offset-1 col-md-5 col-sm-5">
+            {{form_products1.as_p}}
+          </div>
+          <div class="col-md-5 col-sm-5">
+            {{form_products2.as_p}}
+          </div>
+        </div>
+        <div class="row col-md-offset-1 col-sm-offset-1 col-sx-offset-1 col-offset-1" style="margin-top:1rem; margin-bottom:1rem;">
+          <input type="submit" class="btn btn-primary" />
+          <input type="reset" class="btn btn-danger" />
+        </div>
+      </form>
+    </div>
+    <div id="fournisseur-history" class="tab-pane fade">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Ici sont présentés les articles commandées</h5>
+            <small>{{date}}</small>
+          </div>
+          <p class="mb-1">Vous pouvez nous faire confiance sur la confidentialité de vos données</p>
+          <small>Vos informations critiques sont chiffrées.</small>
+        </a>
+        {% for achat in historique_achat %}
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{achat.produit}}</h5>
+            <small class="text-muted">{{achat.date}}</small>
+          </div>
+          <p class="mb-1">{{achat.produit.description}}</p>
+
+          <div class="row">
+            <table class="table table-bordered">
+              <tr>
+                <td>
+                  <small class="text-muted">Quantité&nbsp;&nbsp;<span
+                      class="badge badge-primary badge-pill">{{achat.quantite}}</span></small>
+                  <small class="text-muted">{{achat.produit.prix}}&nbsp;&nbsp;<strong>F CFA</strong>&nbsp;&nbsp;Prix
+                    unitaire</small>
+                  <small class="text-muted"
+                    style="color:rgb(178, 26, 26)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{achat.produit.dp}}</small>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger">Refuser</button>
+                </td>
+                <td>
+                  <img src="{{achat.produit.image.url}}" alt="" width="70">
+                </td>
+
+              </tr>
+            </table>
+          </div>
+        </a>
+        {% endfor %}
+        <div class="list-group-item">
+          <a class="btn btn-primary" id="cmd-modal" data-target="#exampleModal">Valider la</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script type="text/javascript">
+  function edit_product(product) {
+    var mod = $("#mc-edit-" + product);
+    mod.modal('show');
+  }
+
+  function delete_product(product) {
+    var mod = $("#mc-delete-" + product);
+    mod.modal('show');
+  }
+
+  function add_product(product) {
+    var mod = $("#mc-add-" + product);
+    mod.modal('show');
+  }
+
+  $('.mod-close').on('click', function (event) {
+    $('.modal').modal('hide');
+  })
+
+  function OnModalFieldValueChanged(event, id) {
+    var current_quantite = document.getElementById('current_quantite_' + id).value;
+    var q = Number(current_quantite) + Number(event.value);
+    document.getElementById('result-panel-' + id).innerText = q;
+  }
+
+  function OnModalFieldKeyUp(event, id) {
+    var current_quantite = document.getElementById('current_quantite_' + id).value;
+    var q = Number(current_quantite) + Number(event.value);
+    document.getElementById('result-panel-' + id).innerText = q;
+  }
+</script>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 var filtre = []
+
 function onCheckFilter(event){
 
     if(event.checked){
@@ -35,10 +36,10 @@ function onCheckFilter(event){
     
 }
 
-document.getElementById("password").onkeyup = function(){
+/*document.querySelectorAll("input[type=password]").onkeyup(function(e){
     let csrfTokenValue = document.querySelector('[name=csrfmiddlewaretoken]').value;
     var data = new FormData();
-    data.append("key",document.getElementById("password").value);
+    data.append("key", e.target.value);
     const request = new Request(
         'check_password',
         {
@@ -55,4 +56,5 @@ document.getElementById("password").onkeyup = function(){
             p.style.border = "1px solid red";
         }
     });
-}
+})*/
+

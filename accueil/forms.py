@@ -1,15 +1,20 @@
 from django import forms
 from accueil.models import *
 
-class FourniseurForm(forms.ModelForm):
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class FournisseurForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         
-        super(FourniseurForm, self).__init__(*args,**kwargs)
+        super(FournisseurForm, self).__init__(*args,**kwargs)
         for name in self.fields.keys():
                 self.fields[name].widget.attrs.update({
                 'class': 'form-control',
             })
+        self.fields['passe'].widget = forms.PasswordInput()
+        self.fields['passe'].widget.attrs.update({'class': 'form-control',})
         self.fields['nom'].label = "Raison Social"
         self.fields['nif'].label = "Numéro d'indentification fiscal"
         self.fields['adresse'].label = "Adresse"
@@ -33,42 +38,61 @@ class FourniseurForm(forms.ModelForm):
             'numero_tel',
             )
         
-class ProduitForm(forms.ModelForm):
+class ProduitForm1(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
-        super(ProduitForm, self).__init__(*args, **kwargs)
+        super(ProduitForm1, self).__init__(*args, **kwargs)
         for name in self.fields.keys():
             self.fields[name].widget.attrs.update({
                 'class': 'form-control',
+                'id'   :name,
             })
         self.fields['intitule'].label = "Intitulé"
         self.fields['prix'].label = "Prix"
+        self.fields['quantite'].label = "Quantité"
         self.fields['image'].label = "Image"
         self.fields['description'].label = "Description"
         self.fields['mu'].label = "Mode d'usage"
+        
+    class Meta:
+        model = Produit
+        fields = (
+                'intitule',
+                'prix',
+                'quantite',
+                'image',
+                'description',
+                'mu',
+            )
+        
+class ProduitForm2(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ProduitForm2, self).__init__(*args, **kwargs)
+        for name in self.fields.keys():
+            self.fields[name].widget.attrs.update({
+                'class': 'form-control',
+            })    
+        self.fields['dp'] = forms.DateField(widget=DateInput)
+        self.fields['dp'].widget.attrs.update({'class': 'form-control col-md-3 col-sm-3 col-3'}) 
+        self.fields['categorie_produit'].label = "Catégorie"
         self.fields['dp'].label = "Date de péremption"
         self.fields['marque'].label = "De marque"
         self.fields['fabriquant'].label = "Fabriquant"
         self.fields['made_in'].label = "Made in"
         self.fields['pp'].label = "Priorité de publicité"
-        self.fields['vue'].label = "Nombre de vue"
-        self.fields['fournisseur'].label = "Fournisseur"
-        class Meta:
-            model = Produit
-            fields = (
-                'intitule',
-                'prix',
-                'image'
-                'description',
-                'mu',
+        
+    class Meta:
+        model = Produit
+        fields = (
+                'categorie_produit',
                 'dp',
                 'marque',
                 'fabriquant',
                 'made_in',
                 'pp',
-                'fournisseur',
             )
-            
+ 
 class ConsomateurForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
@@ -118,9 +142,9 @@ class CommentaireForm(forms.ModelForm):
         self.fields['consommateur'].label = "Client"
         self.fields['produit'].label = "Article"
         self.fields['commentaire'].label = "Avis"
-        class Meta:
-            model = Commentaire
-            fields = (
+    class Meta:
+        model = Commentaire
+        fields = (
                 'consommateur',
                 'produit',
                 'commentaire',
@@ -141,10 +165,10 @@ class LivreurForm(forms.ModelForm):
         self.fields['mail'].label = "E-mail"
         self.fields['adresse'].label = "Adresse"
         
-        class Meta:
-            model = Livreur
+    class Meta:
+        model = Livreur
             
-            fields = (
+        fields = (
                 'nom',
                 'prenom',
                 'contact',
@@ -192,4 +216,107 @@ class ClientLoginForm(forms.ModelForm):
         model = Consommateur
         
         fields = ('login','password')
+        
+class FournisseurLoginForm(forms.ModelForm):    
+    def __init__(self, *args, **kwargs):
+        
+        super(FournisseurLoginForm, self).__init__(*args,**kwargs)
+        for name in self.fields.keys():
+                self.fields[name].widget.attrs.update({
+                'class': 'form-control form-control-lg',
+            })
+        self.fields['passe'].widget = forms.PasswordInput()
+        self.fields['passe'].widget.attrs.update({'class': 'form-control form-control-lg'})
+        self.fields['login'].label = "Login"
+        self.fields['passe'].label = "Mot de passe"
+
+    class Meta :
+        model  = Fournisseur
+        fields = ('login', 'passe',)
+        
+class SolliciterForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SolliciterForm, self).__init__(*args, **kwargs)
+        for name in self.fields.keys():
+            self.fields[name].widget.attrs.update({
+                'class':'form-control',
+            })
+        self.fields['probleme'].widget = forms.Textarea(attrs={'rows': 5})
+        self.fields['probleme'].widget.attrs.update({'class':'form-control',})
+        self.fields['probleme'].label = "Décrivez ce que vous voulez"
+        self.fields['lieu'].label = "Lieu"
+        self.fields['contact'].label = "Contact"
+    class Meta:
+        model = Solliciter
+        fields= (
+            'probleme',
+            'lieu',
+            'contact',
+            )
+
+class RestaurantForm(forms.ModelForm):
+    
+    def __init__(self,*args, **kwargs):
+        super(RestaurantForm, self).__init__(*args, **kwargs)   
+        for name in self.fields.keys(): 
+            self.fields[name].widget.attrs.update({
+                'class': 'form-control',
+            })
+        self.fields['password'].widget = forms.PasswordInput()
+        self.fields['email'].widget = forms.EmailInput()
+        self.fields['password'].widget.attrs.update({
+                'class': 'form-control',
+            })
+        self.fields['email'].widget.attrs.update({
+                'class': 'form-control',
+            })
+    class Meta: 
+        model=Restaurant
+        fields = (
+            'nom',
+            'adresse',
+            'logo',
+            'email',
+            'login',
+            'password',
+            'specialite'
+        )
+
+class PlatForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PlatForm, self).__init__(*args, **kwargs)
+        for name in self.fields.keys():
+            self.fields[name].widget.attrs.update(
+                {'class': 'form-control'}
+            )
+            self.fields['nom'].widget.attrs.update({'class':'form-control'})
+    class Meta:
+        model = Plat
+        fields = (
+            'nom',
+            'prix',
+            'note',
+            'image'
+        )
+
+
+class RestaurantFormLogin(forms.ModelForm):
+
+    def __init__(self,*args, **kwargs):
+        super(RestaurantFormLogin, self).__init__(*args, **kwargs)   
+        for name in self.fields.keys(): 
+            self.fields[name].widget.attrs.update({
+                'class': 'form-control',
+            })
+        self.fields['password'].label = "Mot de passe "
+        self.fields['password'].widget = forms.PasswordInput()
+        self.fields['password'].widget.attrs.update({
+                'class': 'form-control',
+            })
+    class Meta: 
+        model=Restaurant
+        fields = (
+            'login',
+            'password'
+        )
         

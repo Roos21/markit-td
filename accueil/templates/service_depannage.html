@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+{% block news %}
+<style>
+    @media(max-width:420px) {
+
+        .img {
+            width: 40px;
+        }
+
+    }
+
+    @media(max-width:370px) {
+
+        .img {
+            width: 30px;
+        }
+</style>
+
+<div class="row container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center title-h1">
+                Service de dépannage électromenager
+            </h1>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <fieldset>
+                    <legend>
+                        <img src="/media/mk_services/ele-1.jpeg" alt="Electricité" width="60px" class="img">
+                        Electricité batiments
+                    </legend>
+                    <p>
+                        Markit peut mettre à votre disposition un életricien
+                        qualifié pour une installation. Faites nous part de vos besoins
+                        et nous vous offrons le meilleur service qu'il vous faut.
+                    </p>
+                    <a href="#" class="btn btn-primary" style="color: white; margin-top: 2em;">Solliciter</a>
+                </fieldset>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <fieldset>
+                    <legend>
+                        <img src="/media/mk_services/frc-1.jpeg" alt="Climatisation" width="80px" class="img">
+                        Froid et climatisation
+                    </legend>
+                    <p>
+                        Votre climatisation ou votre réfrigérateur est en panne, ne vous souciez pas,
+                        solliciter le service et un technicien sera dépêcher à domicil pour remedier à cela.
+                    </p>
+                    <a href="#" class="btn btn-primary" style="color: white; margin-top: 2em;">Solliciter</a>
+                </fieldset>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <fieldset>
+                    <legend>
+                        <img src="/media/mk_services/can-2.jpeg" alt="Antenne" width="90px" class="img">
+                        Installation des antennes
+                    </legend>
+                    <p>
+                        Vous avez besoin que quelqu'un installe votre antenne? Vous avez eu un problème avec
+                        votre antenne déjà installée. Eh bien oui, c'est l'endroit idéal de trouver quelqu'un
+                        qui peut vous débarasser de cette préoccupation.
+                    </p>
+                    <a href="#" class="btn btn-primary" style="color: white; margin-bottom: 0%;">Solliciter</a>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% endblock %}

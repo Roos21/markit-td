@@ -36,7 +36,7 @@
                                 {{produit.description}}</h5>
                                 <h4> <span style="width:40%; display: inline-block;">Fournisseur</span> :
                                     {{produit.fournisseur}}</h5>
-                                    <a class="btn btn-info fw-bold card-link" href="/client/add_to_card/"><img src="{% static 'img/cart-plus.png'%}"
+                                    <a class="btn btn-info fw-bold card-link" href="/client/ajouter-au-panier?id={{produit.id}}"><img src="{% static 'img/cart-plus.png'%}"
                                             alt="panier" > Ajouter
                                     </a>
                 </div>
