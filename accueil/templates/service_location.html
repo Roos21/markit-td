@@ -1,0 +1,150 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+<style>
+    .bas {
+        margin-top: 1em; 
+    }
+
+    @media(max-width:420px) {
+
+        .img {
+            width: 45px;
+            height: 25px;
+        }
+        .bas{
+            margin-bottom: 1em;
+        }
+
+    }
+
+    @media(max-width:370px) {
+
+        .img {
+            width: 35px;
+            height: 25px;
+        }
+        .bas{
+            margin-bottom: 1em;
+        }
+    }
+    @media (max-width:1212px) {
+
+        #f-img{
+            height: 80px;
+        }
+        
+    }
+</style>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center title-h1">
+                Service de location
+            </h1>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/mai-1.jpeg" alt="Maison" width="90px" height="50px"
+                                class="img" id="f-img">
+                            Location de maison
+                        </legend>
+                        <p>
+                            Afin de réduire votre temps de recherche pour avoir une maison
+                            de votre choix, Markit vous offre l'opportunité d'obtenire cela
+                            en un temps record. Vous pouvez aussi décrire la maison dont vous
+                            voulez afin que nos propositions reponddent à votre besoin.
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 2em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/cha-3.jpeg" alt="Chaises" width="83px" height="48px"
+                                style="margin-bottom: 2px;" class="img">
+                            Location des chaises
+                        </legend>
+                        <p>
+                            Besoin des chaises pour vos cérémonies, pour vos réunions, Markit vous oofre la possibilités
+                            de louer ces chaises depuis votre maison,sans avoir à afféctuer un deplacement.
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 3.5em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/gaz.jpeg" alt="Gaz" width="95px" height="50px"
+                                class="img">
+                            Location ustensiles & gaz
+                        </legend>
+                        <p>
+                            Ah oui!!! Vous pouvez aussi louer des unstensiles et les gaz depuis votre Smartphone
+                            via Markit. Solliciter le service et vos beoins seront satisfaits.
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 5em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row bas">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/ba-1.jpeg" alt="Bâche" width="80px" height="55px"
+                                style="margin-bottom: 2px;" class="img">
+                            Location de bâche
+                        </legend>
+                        <p>
+                            Vous voulez louer des bâches pour vos céréromie, n'hésitez pas à solliciter
+                            le service. 
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 4em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/lo-1.jpeg" alt="Local" width="80px" height="57px"
+                                style="margin-bottom: 2px;" class="img">
+                            Location de local
+                        </legend>
+                        <p>
+                            Vous avez besoin d'un espace pour votre pétite fête. Vous n'avez pas fait fausse
+                            route, via Markit vous pouvez avoir un local à votre demande.
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 2em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <img src="/media/mk_services/en-2.jpeg" alt="Engin" width="90px" height="58px"
+                                style="margin-bottom: 2px;" class="img">
+                            Location d'engin
+                        </legend>
+                        <p>
+                            La location des voitures n'est pas du reste. Vous pouvez louer une voiture de votre
+                            choix via Markit pour vos courses.
+                        </p>
+                        <a href="#" class="btn btn-primary" style="color: white; margin-top: 2em; margin-bottom: 2em;">Solliciter</a>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+{% endblock %}

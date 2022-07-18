@@ -1,0 +1,225 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+    <div class="container">
+      <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+        <div class="row" style="background-color: #f8f8f8; padding:1rem; margin-bottom:1rem;">
+            <div class="col-md-2">
+              <img width="50px" height="50px" style="border-radius: 50%; margin-top: 1rem;" src="{{current_restaurant.logo.url}}" alt="profile">
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-6 col">
+            <h4>Profile</h4>
+            <p>{{ current_restaurant.nom }}</p>
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-6 col">
+                <h4>Chiffre d'affaire</h4>
+                <span class="text">7 6453 7465.5 F CFA</span>
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-6 col">
+                <h4>Client</h4>
+                <span class="text">3 4567.5 clients</span>
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-6 col">
+                <h4>Classification</h4>
+                <span class="text">1er</span>
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-6 col">
+                <h4>Note</h4>
+                <span class="text">4.5</span>
+            </div>
+        </div> 
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#fournisseur-products">Produits</a></li>
+            <li><a data-toggle="tab" href="#fournisseur-add">Ajouter</a></li>
+            <li><a data-toggle="tab" href="#fournisseur-history">Historique</a></li>
+          </ul>
+          
+          <div class="tab-content">
+            <div id="fournisseur-products" class="tab-pane fade in active">
+              <br>
+              <nav class="navbar navbar-light bg-light">
+                <form class="form-inline">
+                  <input class="form-control mr-sm-2" type="search" id="q" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </nav>
+              
+              <table class="table" >
+                <thead>
+                  <tr>
+                    <th scope="col">N°</th>
+                    <th scope="col">Plats</th>
+                    <th scope="col">Prix Unitaire</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tab">
+                  {% for product in products.object_list %}
+                    <tr>
+                      <th scope="row">{{forloop.counter}}</th>
+                      <td>{{product.nom}}</td>
+                      <td>{{product.prix}}</td>
+                      <td>{{product.note}}</td>
+                      <td class="col-lg-2">
+                        <a class="btn btn-danger" id="delete">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                          </svg>
+                        </a>
+                        <a class="btn btn-primary" id = "edit-modal" >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg>
+                        </a>
+                       
+                        <div class="modal fade" id="edit-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <img src="/static/img/logo.png" width="100" alt="">
+                              </div>
+                              <div class="modal-body">
+                                edit
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-edit">Fermer</button>
+                                <a type="button" class="btn btn-primary" href="?action=2&plat={{product.id}}">Modifier</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="modal fade" id="delete-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <img src="/static/img/logo.png" width="100" alt="">
+                              </div>
+                              <div class="modal-body">
+                                Voulez vous vraiment Supprimer cet élément ????
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-delete">Fermer</button>
+                                <a type="button" class="btn btn-primary" href="?action=1&plat={{product.id}}">Supprimer</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>  
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item {{ paginator.has_previous|yesno:',disabled' }}">
+                    <a class="page-link" href="?page=1" tabindex="-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                      <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                  </a>
+                  </li>
+                  {% if products.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{products.previous_page_number}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-left" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0zM4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5z"/>
+                        </svg>
+                      </a>
+                    </li>
+                  {% endif %}
+                  <li class="page-item"><span class="page-link" href="#">{{products.number}} of {{paginator.num_pages}}</span></li>
+                  {% if products.has_next %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{products.next_page_number}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-right" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                      </a>
+                    </li>
+                  {% endif %}
+                  <li class="page-item {{ products.has_previous|yesno:'disabled,' }}">
+                    <a class="page-link" href="?page={{ paginator.num_pages}}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div id="fournisseur-add" class="tab-pane row fade">
+              <h3 class="page-header text-uppercase col-lg-offset-3">Ajouter un nouveau plat</h3>
+                <form method="post" class="col-md-4 col-lg-4 col-md-offset-3 col-lg-offset-3" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    {{form_plat.as_p}}
+                  <div class="row col-md-offset-1" style="margin-top:1rem; margin-bottom:1rem;">
+                    <input type="submit" class="btn btn-primary"/>
+                    <input type="reset" class="btn btn-danger"/>
+                  </div>
+                </form>
+            </div>
+            <div id="fournisseur-history" class="tab-pane fade">
+              <h3>Historique</h3>
+              <p>Historique de vente.</p>
+            </div>
+          </div>
+    </div>
+    <script type="text/javascript">
+      $("#delete").on('click',function(event){
+        $("#delete-form").modal('show');
+      })
+      $("#cancel-delete").on('click',function(event){
+        $("#delete-form").modal('hide');
+      })
+      
+      $("#edit-modal").on('click',function(event){
+        $("#edit-form").modal('show');
+      })
+      
+      $("#cancel-edit").on('click',function(event){
+        $("#edit-form").modal('hide');
+      })
+      
+      $("#add-link").on('click',function(event){
+        var a = document.getElementById("add-link");
+        var qte = document.getElementById('qte').value;
+        var link = a+"&qte="+qte;
+      })
+      $('#q').on('keyup',function(event){
+      
+        let csrfTokenValue = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        var data = new FormData();
+        var key = event.target.value;
+        data.append("key_word",key) 
+        //data = JSON.stringify(data);
+        const request = new Request(
+            'search',
+            {
+                method: 'POST',
+                body: data,
+                headers: {'X-CSRFToken': csrfTokenValue},
+            }
+        );
+        fetch(request).then(response => response.json()).then(result => {
+        
+           // alert(result["r"]["rr"]);
+            var panel_new = document.getElementById('tab');
+            panel_new.innerHTML = result["r"]["rr"];
+        });
+      })
+    </script>
+{% endblock %}

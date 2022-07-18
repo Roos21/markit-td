@@ -1,0 +1,238 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Markit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mk_css.css' %}/" />
+    <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}" defer></script>
+    <script type="text/javascript" src="/static/js/mk_js.js"></script>
+</head>
+
+<body>
+    <div class="menu header">
+        <div class="text-center">
+            <nav>
+                <ul class="rx-sociaux">
+                    <a href="#"><img src="{% static 'img/facebook.svg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'img/twitter.svg' %}" alt="Twitter"></a>
+                    <a href="tel:+235 66 66 66 66"><img src="{% static 'img/whatsapp.svg' %}" alt="Whatsapp"> </a>
+                </ul>
+            </nav>
+        </div>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <a class="navbrand d-inline-block" href="#"> <img src="{% static 'img/logo.png' %}" width="100"
+                        class="d-inline-block"> </a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse navbar-right" id="example-navbar-collapse">
+                <ul class="nav navbar-nav mt-4">
+                    <li><a href="/">Acceuil</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Produits <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Produits de beauté</a></li>
+                            <li><a href="#">Produits alimanetaire</a></li>
+                            <li><a href="#">Matériels de construction</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Meubles</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Autres</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Services <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/service_depannage">Service de depanage électromenager</a></li>
+                            <li><a href="/service_location">Servcice de location</a></li>
+                            <li><a href="/service_livraison">Service de transport</a></li>
+                            <li><a href="/restaurant/menu">Service de restauration</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/autre">Autres</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/apropos">Apropos</a></li>
+                    <form class="navbar-form navbar-left" action="/action_page.php">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <img src="{% static 'img/icon-search.png' %}" class="d-inline-block" width="20">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+    <div class="container">
+        {% block slider %}
+        <div class="row jumbutron">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    {% for pub in mk_pubs %}
+                    <li data-target="#myCarousel" data-slide-to="{{forloop.counter}}"></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <div class="span4">
+                                <img src="{{ first_pub.photo.url }}" class="img-thumbnail img-pu">
+                            </div>
+                        </div>
+
+                        {% for pub in mk_pubs %}
+                        <div class="item">
+                            <div class="span4">
+                                <img src="{{ pub.photo.url }}" class="img-thumbnail img-pu">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %} 
+        {% block news %}
+        <div class="container text text-center text-primary">
+            <hr class="bg-white border">
+            <h3>LES NOUVEAUTÉS</h3>
+        </div>
+        <div class="row carousel" id="news">
+            {% for product in mk_news_products %}
+                <a href="#">
+                    <img src="{{product.image.url}}" class=""></img>
+                </a>
+            {% endfor %}
+        </div>
+        {% endblock %}
+        {% block filtre %}
+        <div class="container">
+            <div class="col-lg-2 col-md-3">
+                <div class="panel panel-info" id="filtre">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Filtre
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>Catégorie</h4>
+                        <hr>
+                        {% csrf_token %}
+                        {% for categorie in mk_categories %}
+                            <div class="form-check">
+                                <input onclick="onCheckFilter(this)" class="form-check-input" type="checkbox" value="{{categorie.categorie}}" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{categorie.categorie}}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <hr>
+                        <h4>Action</h4>
+                        <hr>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Nouveaux
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Plus acheté
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Services
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+            {% block products %}
+            <div class="col-lg-10 col-md-9">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title title-produit">
+                            Les produits les plus vue
+                        </h3>
+                    </div>
+                    <div class="panel-body row" id="pro-panel">
+                        {% for produit in mk_produits %}
+                        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
+                            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%"
+                                alt="Card image cap">
+                            <div class="card-body">
+                                <hr class="my-6">
+                                <span class="card-title fw-bold">{{produit.intitule}}</span>
+                                <h6>{{produit.prix}}</h6>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <ul class="pagination row">
+                        <a href="#" class="pagina pag">&laquo;</a>
+                        <a href="#" class="pag">&raquo;</a>               
+                    </ul>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div class="row bg-dark fixed-bottom" id="footer">
+        <div class="container">
+            <div class="row ">
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <h3>Nos partenaires</h3>
+                    {% for partenaire in mk_partenaires %}
+                        <h4 class="fs-6">{{partenaire.designation}}</h4>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <h3>Nous contacter</h3>
+                    <img id="img-footer"src="{% static 'img/facebook.svg' %}" alt="Tél">
+                        <a href="tel:235 63 82 22 80" style="color: white; text-decoration: none;">63822280</a>
+                        <br> 
+                        <a href="#" style="color: white; text-decoration: none;"><img  id="img-footer"src="{% static 'img/facebook.svg' %}" alt="Facebook">Facebook</a>
+                        <br>
+                        <a href="#" style="color: white; text-decoration: none;"><img id="img-footer"src="{% static 'img/twitter.svg' %}" alt="Facebook">Twitter</a>
+                        <br>
+                        <a href="mailto:bourkou11@gmail.com" style="color: white; text-decoration: none;"><img id="img-footer"src="{% static 'img/facebook.svg' %}" alt="Mail">Mail</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <h3>Autres services</h3>
+                    {% for service in mk_services %}
+                        <h4>{{service.service}}</h5>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <h5 class="copy-mk">Copyright 2022, all rights reserved</h5>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

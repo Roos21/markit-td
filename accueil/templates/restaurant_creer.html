@@ -1,0 +1,46 @@
+{% extends 'index.html'%}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+{% block filtre %}
+{% endblock %}
+{% block products %}
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <div class="text">        
+                <h3>Plats</h3>
+                <p>Configurer ensuite votre compte fournisseur pour disposer des services et des Plats aux clients.</p>
+            </div>
+            <div class="text">
+                <h3>Achats</h3>
+                <p>Nous endossons la charge de repondre aux commandes des clients</p>
+            </div>
+            <div class="text">
+                <h3>Livraison</h3>
+                <p>Nous nous occupons de confier la charge de prendre votre marchandise pour ensuite livrer au client concerné.</p>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-5 col-xs-10 table-bordered m-2 p-2" style="margin-bottom: 20px;">
+            <h3>NOUVEAU COMPTE RESTAURANT</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if error_exist %}
+                    <p class="alert alert-danger">Un restaurant ayant même informations exite</p>
+                {% endif %}
+                {{form.as_p}}
+                <p>                
+                    <button class="btn btn-danger" type="reset" id="cancel">Rétablir</button>
+    
+                    <button class="btn btn-primary" type="submit" id="submit">Connection</button>
+                </p>
+                <p><a href="creer">S'enregistrer</a>&nbsp;&nbsp;&nbsp;<a href="retour">Retour</a></p>
+                <p class="text-justify">En cliquant sur S'enregistrer, vous accepter notre politique de la confidentialité de vos données</p>
+            </form>
+        </div><br><br>
+    </div>
+    
+{% endblock %}

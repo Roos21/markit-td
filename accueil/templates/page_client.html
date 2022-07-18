@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+<div class="col-md-10 col-md-offset-1 col-lg-10 col-md-offset-1 col-sm-10 col-md-offset-1 col-xs-12">
+    <div class="row">
+        <table class="table table-bordered text-center">
+            <tr>
+                <td>
+                    <ul class="list-unstyled list-inline">
+                        <li>addition </li>
+                        <li><span class="badge badge-primary badge-pill">{{balance}} &nbsp;&nbsp;&nbsp;&nbsp;<strong>F
+                                    CFA</strong></span></li>
+                        <li>total article</li>
+                        <li><span class="badge badge-primary badge-pill">{{total_article}}</span></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <marquee scrollamount="2">Bienvenus dans votre panier</marquee>
+                        </li>
+                        <li><span class="badge badge-primary badge-pill"
+                                style="background:cornflowerblue">{{client}}</span></li>
+                        <li><img src="/static/img/account.png"></li>
+                        <li><img src="/static/img/gift-outline.png" width="17">&nbsp;&nbsp;&nbsp;<span
+                                class="badge badge-primary badge-pill"
+                                style="background:cornflowerblue">Donnation</span> </li>
+                        <li><span class="badge badge-primary badge-pill" style="background:rgba(175, 57, 57, 0.599);"><a
+                                    href="/logout" style="color:white;">deconnexion</a></span></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Ici sont présentés les articles ajoutés à votre panier</h5>
+                <small>{{date}}</small>
+            </div>
+            <p class="mb-1">Vous pouvez nous faire confiance sur la confidentialité de vos données</p>
+            <small>Vos informations critiques sont chiffrées.</small>
+        </a>
+        {% for panier in paniers %}
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{panier.produit}}</h5>
+                <small class="text-muted">{{panier.date}}</small>
+            </div>
+            <p class="mb-1">{{panier.produit.description}}</p>
+
+            <div class="row">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <small class="text-muted">Quantité&nbsp;&nbsp;<span
+                                    class="badge badge-primary badge-pill">{{panier.quantite}}</span></small>
+                            <small class="text-muted">{{panier.produit.prix}}&nbsp;&nbsp;<strong>F
+                                    CFA</strong>&nbsp;&nbsp;Prix unitaire</small>
+                            <small class="text-muted"
+                                style="color:rgb(178, 26, 26)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{panier.produit.dp}}</small>
+                        </td>
+                        <td>
+                            <a href="../abandonner?id={{panier.id}}" type="button" class="btn btn-danger">Abandonner</a>
+                        </td>
+                        <td>
+                            <img src="{{panier.produit.image.url}}" alt="" width="70">
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </a>
+        {% endfor %}
+        <div class="list-group-item">
+            <a class="btn btn-primary" id="cmd-modal" data-target="#exampleModal">Commander le panier</a>
+            <a href="/accueil" style="float: right;">Aller à la liste des produits</a>
+        </div>
+    </div>
+
+    <!-- bloc de la fenetre modal pour la reservation -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img src="/static/img/logo.png" width="150" alt>
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="../reserver/" id="f">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Mode de payement:</label>
+                            <select class="form-control" name="paye">
+                                <option value="Moov Money">Moov Money</option>
+                                <option value="Airtel Money">Airtel Money</option>
+                                <option value="Payer comptant">Payer comptant</option>
+                                <option value="Paypal">Paypal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="col-form-label">Quoi faire après la validation?</label>
+                            <select class="form-control" name="livre">
+                                <option value="1">Se faire livrer</option>
+                                <option value="2">Récuperation à l'agence</option>
+                                <option value="3">Récuperation au siège de markit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Note</label>
+                            <p style="text-align:justify;">Le frais de livraison s'appliquent à votre addition en cas de
+                                demande de livraison proportionnelement à votre position.
+                                Il est payé comptant après livraison. Clickez <a href="">ici</a> pour découvrir nos
+                                tarifs.
+                            </p>
+                        </div>
+                        <input name="client" value="{{client.id}}" type="hidden" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" id="send">Valider la commande</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#send').on('click', function (event) {
+            var modal = $('.modal');
+            modal.find('.modal-title').text('Vueillez patienter...')
+            $('#f').submit();
+        })
+
+
+        $('#cmd-modal').on('click', function (event) {
+            var modal = $(".modal");
+            modal.find('.modal-title').text('{{client}}');
+            modal.modal('show');
+        })
+    </script>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+
+{% block products %}
+    <div class="alert alert-success">
+        <h1>Rapport statut connexion</h1>
+        <strong>{{ user }}</strong> Est déconnecté ... <br>
+        <p>Nouvelle connection <a type="button" class="btn btn-primary"href="../login">ici</a></p>
+    </div>
+{% endblock %}

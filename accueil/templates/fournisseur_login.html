@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+<div  class="col-md-offset-4 col-xs-offset-1 col-sm-offset-3 col-md-4 col-sm-6 col-xs-10 col-10">
+    {% if error %}
+        <p class="alert-danger alert" style="font-style: italic;">{{error}}</p><br />
+    {% endif %}
+    <div id="fournisseur-login_form">
+
+        <h3 class="page-header page fw-bold text-center">AUTHENTICATION</h3>
+        <form method="post" action>
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <div class="form-group row" id="fournisseur-btn">
+                <input type="reset" class="btn btn-danger">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

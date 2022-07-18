@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+<div class="container text text-center text-primary">
+    <hr class="bg-white border">
+    <h3>LES NOUVEAUTES</h3>
+</div>
+<div class="row carousel" id="news">
+    {% for product in mk_news_products %}
+    <a href="#">
+        <img src="{{product.image.url}}" class=""></img>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+<div class="container row panel panel-default">
+    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12" style="margin-right: 4rem; margin-left: 3rem;">
+        <div class="card border" style="background-color: white; padding: 1rem;display: inline-block;">
+            <img class="card-img-top" width="100%" src="{{produit.image.url}}" />
+            <div class="card-content">
+                <h2 class="card-title">{{produit.intitule}}</h2>
+                <div class="card-body fs-2">
+                    <h4> <span style="width:40%; display: inline-block;">Prix</span> : {{produit.prix}} F CFA</h5>
+                        <h4> <span style="width:40%; display: inline-block;">Date d'expiration</span> : {{produit.dp}}
+                            </h5>
+                            <h4> <span style="width:40%; display: inline-block;">Description</span> :
+                                {{produit.description}}</h5>
+                                <h4> <span style="width:40%; display: inline-block;">Fournisseur</span> :
+                                    {{produit.fournisseur}}</h5>
+                                    <a class="btn btn-info fw-bold card-link" href="/client/ajouter-au-panier?id={{produit.id}}"><img src="{% static 'img/cart-plus.png'%}"
+                                            alt="panier" > Ajouter
+                                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col" style="margin-top:1rem;">
+        {% for produit in mk_produits %}
+        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
+            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%" alt="Card image cap">
+            <div class="card-body">
+                <hr class="my-6">
+                <span class="card-title fw-bold">{{produit.intitule}}</span>
+                <h6>{{produit.prix}}</h6>
+            </div>
+        </a>
+        {% endfor %}
+        {% for produit in mk_produits %}
+        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
+            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%" alt="Card image cap">
+            <div class="card-body">
+                <hr class="my-6">
+                <span class="card-title fw-bold">{{produit.intitule}}</span>
+                <h6>{{produit.prix}}</h6>
+            </div>
+        </a>
+        {% endfor %}
+        {% for produit in mk_produits %}
+        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
+            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%" alt="Card image cap">
+            <div class="card-body">
+                <hr class="my-6">
+                <span class="card-title fw-bold">{{produit.intitule}}</span>
+                <h6>{{produit.prix}}</h6>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<ul class="pagination row">
+    <a href="#" class="pagina pag">&laquo;</a>
+    <a href="#" class="pag">&raquo;</a>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="my-4">
+{% endblock %}

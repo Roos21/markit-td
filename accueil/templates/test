@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% for pub in mk_pubs %}
+{% if forloop.counter == 0 %}
+<div class="item active">
+    <div class="span0">
+        <img src="{{ pub.photo.url }}" class="img-thumbnail img-pu">
+        <div class="carousel-caption">
+            <p>Désignation : Produit B. Prix : {{pub.tarif}} <strong>F CFA</strong></p>
+            <p>{{pub.nom_entreprise}}, tel : {{pub.contact}}<strong><a href="#">Cliquez
+                        ici</a></strong></p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="item">
+    <div class="span{{forloop.counter}}">
+        <img src="{{ pub.photo.url }}" class="img-thumbnail img-pu">
+        <div class="carousel-caption">
+            <p>Désignation : Produit B. Prix : {{pub.tarif}} <strong>F CFA</strong></p>
+            <p>{{pub.nom_entreprise}}, tel : {{pub.contact}}<strong><a href="#">Cliquez
+                        ici</a></strong></p>
+        </div>
+    </div>
+</div>
+{% endif%}
+</body>
+</html>

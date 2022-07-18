@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block news %}
+{% endblock %}
+
+{% block filtre %}
+{% endblock %}
+
+{% block products %}
+<script type="text/javascript" src="/static/js/mk_js.js"></script>
+    {% if form %}
+    <div style="border: 1px solid #ccc; margin-bottom: 40px;" class="container col-lg-4 col-md-4 col-sm-7 col-xs-10 col-lg-offset-4 col-md-offset-4 col-md-offset-2 col-md-offset-2 col-xs-offset-1">
+        <form method="post" action>
+            <div class="row" style="background-color: #cc5b1a; padding:3px;">
+                <h2 style="text-align:center;color:#f4f2f0;">Enregistrement</h2>
+            </div>
+            <p></p><br>
+            {% if save_client %}
+            <p style="color:rgb(10, 131, 35);">Erreur d'authentification : les informations incorect</p>
+            {% endif %}
+            <p></p><br>
+            {% csrf_token %}
+            {{ form.as_p}}
+            <p>
+                <input type="submit" class="btn btn-primary form-control" value="S'enregistrer"/>
+            </p>
+            <p><a href="../add_to_card/">S'authentifier</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/">Retour à la page d'accueil</a></p>
+            <p style="text-align:justify;">En cliquant sur <a href="">S'authentifier</a>, vous acceptez les politiques et conditions d'utilisation de vos données</p> 
+        </form>
+        
+    </div>
+    {% endif %}
+    {{message}}
+{% endblock %}
