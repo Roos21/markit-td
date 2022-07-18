@@ -1,1 +1,1 @@
-web gunicorn Markit.wsgi:application --log-file -
+web: gunicorn Markit.wsgi:application --log-file -
