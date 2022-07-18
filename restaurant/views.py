@@ -65,7 +65,7 @@ def mk_restaurant_creer(request):
                 restaurant.save()
                 before_post = False
                 succes = True
-                return redirect('../restaurant/index')
+                return redirect('/restaurant/index')
             
     else:
         form = RestaurantForm()
@@ -108,15 +108,18 @@ def mk_restaurant_page(request):
             if a == 1 :
                d_palt = Plat.objects.get(id=plat)
                d_palt.delete()
-               return redirect("../restaurant/index")   
+               return redirect("/restaurant/index")   
         form_plat = PlatForm()
         products  = Plat.objects.all().order_by("id")
         paginator = Paginator(products,5)
         products  = paginator.get_page(page)
-        current_restaurant = Restaurant.objects.get(login=request.user.username)
+        try:
+          current_restaurant = Restaurant.objects.get(login=request.user.username)
+        except Restaurant.DoesNotExist:
+          return redirect("/restaurant")
     
     else:
-        return redirect('../restaurant/index')
+        return redirect('/restaurant/index')
     return render(request,'restaurant_page.html',locals())
     
     
@@ -235,5 +238,4 @@ def mk_restaurant_menu(request):
 
 
     return render(request,'service_restauration_menu.html',locals())
-    
     

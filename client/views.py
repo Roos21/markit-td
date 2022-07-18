@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.db.models import Q, Max
 import datetime
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 
 # fonction d'authentification d'un utilisateur à la base de données
@@ -89,8 +90,6 @@ def mk_client_ajouter(request):
 
 def mk_client_page(request):
     balance = 0
-    if not request.user.is_authenticated :
-        return redirect('/client/login')
     if request.session.get('produit_selectionner'):
         try:
             produit = Produit.objects.get(id=request.session.get('produit_selectionner'))
@@ -115,62 +114,72 @@ def mk_client_page(request):
                     total_article = len(paniers)
                     sms = True 
             for entre in paniers:
-                balance += entre.produit.prix*entre.q
+                balance += entre.produit.prix*entre.quantite
         except Exception as e:
             print("Lors de la page ",e)
     else:
-       client = Consommateur.objects.get(login=request.user.username)
-       paniers = Panier.objects.filter(consommateur=client).order_by('-date')
-       total_article = len(paniers)
-       sms = True 
-       for entre in paniers:
-           balance += entre.produit.prix*entre.quantite
+        try:
+            client = Consommateur.objects.get(login=request.user.username)
+            paniers = Panier.objects.filter(consommateur=client).order_by('-date')
+            total_article = len(paniers)
+            sms = True 
+            for entre in paniers:
+                balance += entre.produit.prix*entre.quantite
+        except Exception as e:
+            return redirect('client/login')
+            
+
     return render(request,'page_client.html',locals())
 
 def mk_ajouter_au_panier(request):
     balance = 0
-    try:
-        id = int(request.GET.get('id'))
-        request.session['produit_selectionner'] = id
-        # Si l'utilisateur n'est pas connecté 
-        try :
-            
-            if not request.user.is_authenticated :
-                return redirect('/client/login')
-            produit = Produit.objects.get(id=id)
-            if produit is not None:
-                client = Consommateur.objects.get(Q(login=request.user.username))
-                try :
-                    p = Panier.objects.get(Q(produit=produit) & Q(consommateur=client))
-                    print(p)
-                    if p.id>0:
-                        p.quantite += 1
-                        p.save()
-                        
-                except Exception as e:
-                    print("Hum ", e)
-                    panier = Panier(
-                        produit=produit,
-                        consommateur=client,
-                        quantite=1
-                    )
-                    panier.save()
-                paniers = Panier.objects.filter(consommateur=client).order_by('-date')
-                total_article = len(paniers)
-                for entre in paniers:
-                    balance += entre.produit.prix*entre.quantite
-        
+    if request.user.username is not None:
+        print(request.user.username)
+        try:
+            id = int(request.GET.get('id'))
+            request.session['produit_selectionner'] = id
+            # Si l'utilisateur n'est pas connecté 
+            try :
                 
-            else:
-                sms = "Produit inexistant"
-                
-        except Exception as e:
+                if not request.user.is_authenticated :
+                    return redirect('/client/login')
+                produit = Produit.objects.get(id=id)
+                if produit is not None:
+                    client = Consommateur.objects.get(Q(login=request.user.username))
+                    try :
+                        p = Panier.objects.get(Q(produit=produit) & Q(consommateur=client))
+                        print(p)
+                        if p.id>0:
+                            p.quantite += 1
+                            p.save()
+                            
+                    except Exception as e:
+                        print("Hum ", e)
+                        panier = Panier(
+                            produit=produit,
+                            consommateur=client,
+                            quantite=1
+                        )
+                        panier.save()
+                    paniers = Panier.objects.filter(consommateur=client).order_by('-date')
+                    total_article = len(paniers)
+                    for entre in paniers:
+                        balance += entre.produit.prix*entre.quantite
             
-            print("Exception produit : ",e)
                     
-    except:
-        return redirect('/client')
-    
+                else:
+                    sms = "Produit inexistant"
+                    
+            except Exception as e:
+                
+                print("Exception produit : ",e)
+                        
+        except:
+            return redirect('/client')
+        
+    else:
+        return redirect('/client/login')
+        
     return render(request,'page_client.html',locals())
 
 
@@ -186,51 +195,67 @@ def mk_client_abandonner(request):
     return render(request,'page_client.html',locals())
 
 def mk_commander(request):
-    id_client = request.POST.get('client')
-    paye = request.POST.get('paye')
-    livre = request.POST.get('livre')
-    client = Consommateur.objects.get(id=id_client)
-    panier = Panier.objects.filter(consommateur=client)
-    payement = Payement.objects.get(id=paye)
-    livreur = Livreur.objects.get(id=1)
-    ok = 0
-    if int(livre) ==  1:
-        for p in panier:
-            reservation = Resrevation(
-                client=client,
-                payement=payement,
-                livreur=livreur,
-                produit=p.produit,
-                quantite=p.quantite
+    try :
+        id_client =request.POST.get('client')
+        paye =request.POST.get('paye')
+        livre = request.POST.get('livre')
+        client = Consommateur.objects.get(id=id_client)
+        panier = Panier.objects.filter(consommateur=client)
+        payement = Payement.objects.get(type_p=paye)
+        livreur = Livreur.objects.get(id=1)
+        ok = 0
+        if int(livre) ==  1:
+            for p in panier:
+                reservation = Resrevation(
+                    client=client,
+                    payement=payement,
+                    livreur=livreur,
+                    produit=p.produit,
+                    quantite=p.quantite
+                )
+                reservation.save()
+                p.delete()
+            ok=1
+        elif int(livre) == 2:
+            for p in panier:
+                reservation = Resrevation(
+                    client=client,
+                    payement=payement,
+                    livreur=livreur,
+                    produit=p.produit,
+                    quantite=p.quantite,
+                    livrer=2
+                )
+                reservation.save()
+                p.delete() 
+            ok = 2
+        elif int(livre) == 3:
+            produit = ""
+            total = 0
+            for p in panier:
+                reservation = Resrevation(
+                    client=client,
+                    payement=payement,
+                    livreur=livreur,
+                    produit=p.produit,
+                    quantite=p.quantite,
+                    livrer=3
+                )
+                reservation.save()
+                total += p.produit.prix * p.quantite
+                produit += p.produit.intitule+"\n"
+                p.delete() 
+            ok = 3
+            
+            send_mail(
+                'Markit commande',
+                produit + 'Total : ' + total + 'F CFA',
+                'baletkoyahbesamson@gmail.com',
+                [client.email],
+                fail_silently=False,
             )
-            reservation.save()
-            p.delete()
-        ok=1
-    elif int(livre) == 2:
-        for p in panier:
-            reservation = Resrevation(
-                client=client,
-                payement=payement,
-                livreur=livreur,
-                produit=p.produit,
-                quantite=p.quantite,
-                livrer=2
-            )
-            reservation.save()
-            p.delete() 
-        ok = 2
-    elif int(livre) == 3:
-        for p in panier:
-            reservation = Resrevation(
-                client=client,
-                payement=payement,
-                livreur=livreur,
-                produit=p.produit,
-                quantite=p.quantite,
-                livrer=3
-            )
-            reservation.save()
-            p.delete() 
-        ok = 3
-        mk_partenaires = Partenaire.objects.all()
+            
+    except Exception as e:
+        print("ERROR at client_commander %s"%e)
+    mk_partenaires = Partenaire.objects.all()
     return  render(request, 'client_login.html', locals())

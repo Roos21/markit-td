@@ -6,6 +6,7 @@ from accueil.forms import *
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+import collections
     
 def mk_fournisseur_form(request):
     mk_partenaires = Partenaire.objects.all()
@@ -166,17 +167,25 @@ def mk_fournisseur_page(request):
                 
                 all_achat           = Resrevation.objects.all()
             
+                #Calcul du chiffre d'affaire du fournisseur
                 chiffre_affaire= 0.0
                 for p in products :
                     chiffre_affaire += (p.quantite * p.prix)
                 
+                #construction de l'historique des achats
                 historique_achat    = []
                 for achat in all_achat :
                     if achat.produit.fournisseur.id == current_fournisseur.id :
                         historique_achat.append(achat)
+                #calcul du nombre de client du fournisseur      
+                clients_id         = []
+                for achat in historique_achat :
+                    clients.append(achat.client.id)
                 
-                clients         = len(historique_achat)
+                c_clients = collections.Counter(clients_id)
+                clients   = len(c_clients.keys())
                 all_fournisseur = Fournisseur.objects.all()
+                #determination du rang du fournisseur
                 rang = 0
                 for i, f in enumerate(all_fournisseur):
                     if f.id == current_fournisseur.id:

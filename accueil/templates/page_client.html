@@ -103,15 +103,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="/client/reserver/" id="f">
+                    <form method="post" action="../reserver/" id="f">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Mode de payement:</label>
                             <select class="form-control" name="paye">
-                                <option value="1">Moov Money</option>
-                                <option value="2">Airtel Money</option>
-                                <option value="3">Payer comptant</option>
-                                <option value="4">Paypal</option>
+                                <option value="Moov Money">Moov Money</option>
+                                <option value="Airtel Money">Airtel Money</option>
+                                <option value="Payer comptant">Payer comptant</option>
+                                <option value="Paypal">Paypal</option>
                             </select>
                         </div>
                         <div class="form-group">
