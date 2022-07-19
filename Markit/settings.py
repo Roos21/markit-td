@@ -91,7 +91,14 @@ WSGI_APPLICATION = 'Markit.wsgi.application'
 #}
 
 DATABASES = {
-    'default': dj_database_url.config()
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'dadpie0glf4ep7',
+       'USER': 'sscwxarbpseloj',
+       'PASSWORD': 'd85f2c932b70f45c8e4e0809b8fe9f79bc47c72e764c7cec4fc92954b9c27ca7',
+       'HOST': 'ec2-54-170-90-26.eu-west-1.compute.amazonaws.com',
+       'PORT': '5432',
+   }
 }
 
 
@@ -117,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'fr-fr'
+LANGUAGE_CODE = 'en-en'
 
 TIME_ZONE = 'UTC'
 
