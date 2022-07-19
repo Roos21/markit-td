@@ -126,7 +126,7 @@ def mk_client_page(request):
             for entre in paniers:
                 balance += entre.produit.prix*entre.quantite
         except Exception as e:
-            return redirect('client/login')
+            return redirect('/client/login')
             
 
     return render(request,'page_client.html',locals())
