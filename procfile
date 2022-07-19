@@ -1,1 +1,0 @@
-web: gunicorn Markit.wsgi --log-file -
