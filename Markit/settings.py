@@ -89,20 +89,20 @@ WSGI_APPLICATION = 'Markit.wsgi.application'
 #       'NAME': BASE_DIR / 'db.sqlite3',
 #   }
 #}
-"""if DEBUG == False:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dadpie0glf4ep7',
-        'USER': 'sscwxarbpseloj',
-        'PASSWORD': 'd85f2c932b70f45c8e4e0809b8fe9f79bc47c72e764c7cec4fc92954b9c27ca7',
-        'HOST': 'ec2-54-170-90-26.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
-        }
-    }
- 
-else:"""
+#if DEBUG == False:
 DATABASES = {
+'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'dadpie0glf4ep7',
+    'USER': 'sscwxarbpseloj',
+    'PASSWORD': 'd85f2c932b70f45c8e4e0809b8fe9f79bc47c72e764c7cec4fc92954b9c27ca7',
+    'HOST': 'ec2-54-170-90-26.eu-west-1.compute.amazonaws.com',
+    'PORT': '5432',
+    }
+}
+ 
+#else:"""
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'my_db',
@@ -111,7 +111,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
         }
-    }
+    }"""
 
 
 # Password validation
