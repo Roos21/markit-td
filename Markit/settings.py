@@ -89,17 +89,29 @@ WSGI_APPLICATION = 'Markit.wsgi.application'
 #       'NAME': BASE_DIR / 'db.sqlite3',
 #   }
 #}
-
+"""if DEBUG == False:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dadpie0glf4ep7',
+        'USER': 'sscwxarbpseloj',
+        'PASSWORD': 'd85f2c932b70f45c8e4e0809b8fe9f79bc47c72e764c7cec4fc92954b9c27ca7',
+        'HOST': 'ec2-54-170-90-26.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+        }
+    }
+ 
+else:"""
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'dadpie0glf4ep7',
-       'USER': 'sscwxarbpseloj',
-       'PASSWORD': 'd85f2c932b70f45c8e4e0809b8fe9f79bc47c72e764c7cec4fc92954b9c27ca7',
-       'HOST': 'ec2-54-170-90-26.eu-west-1.compute.amazonaws.com',
-       'PORT': '5432',
-   }
-}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_db',
+        'USER': 'todo',
+        'PASSWORD': 'markitcopy',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        }
+    }
 
 
 # Password validation
@@ -155,9 +167,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = ''
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'markit18td@gmail.com'
+EMAIL_HOST_PASSWORD = 'm@rk!t2@22'
+APPLICATION_EMAIL = 'Admin<markit18td@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Admin<markit18td@gmail.com>'
 

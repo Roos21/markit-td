@@ -1,6 +1,7 @@
 from django.urls import path,include
 from client import views
 urlpatterns = [
+    path('',views.mk_client_login),
     path('login/', views.mk_client_login),
     path('ajouter-client/', views.mk_client_ajouter),
     path('page/', views.mk_client_page),

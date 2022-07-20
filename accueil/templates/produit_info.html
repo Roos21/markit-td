@@ -11,7 +11,7 @@
 </div>
 <div class="row carousel" id="news">
     {% for product in mk_news_products %}
-    <a href="#">
+    <a href="/accueil/produit/?id={{product.id}}">
         <img src="{{product.image.url}}" class=""></img>
     </a>
     {% endfor %}
@@ -54,32 +54,12 @@
             </div>
         </a>
         {% endfor %}
-        {% for produit in mk_produits %}
-        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
-            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%" alt="Card image cap">
-            <div class="card-body">
-                <hr class="my-6">
-                <span class="card-title fw-bold">{{produit.intitule}}</span>
-                <h6>{{produit.prix}}</h6>
-            </div>
-        </a>
-        {% endfor %}
-        {% for produit in mk_produits %}
-        <a class="card product-item" href="/accueil/produit/?id={{produit.id}}">
-            <img class="card-img-top" src="{{produit.image.url}}" width="100%" height="100%" alt="Card image cap">
-            <div class="card-body">
-                <hr class="my-6">
-                <span class="card-title fw-bold">{{produit.intitule}}</span>
-                <h6>{{produit.prix}}</h6>
-            </div>
-        </a>
-        {% endfor %}
     </div>
 </div>
-<ul class="pagination row">
-    <a href="#" class="pagina pag">&laquo;</a>
-    <a href="#" class="pag">&raquo;</a>
-</ul>
+<div style="margin: 1rem;">
+    <a href="?page={{mk_produits.has_next|yesno:',mk_produits.previous_page_number'}}" class="btn btn-success col-lg-2 col-md-2 col-sm-2 col-xs-4 {{mk_produits.has_next|yesno:',disabled'}}">Précedent</a>
+    <a href="?page={{mk_produits.has_next|yesno:',mk_produits.next_page_number'}}" class="btn btn-success col-lg-offset-8 col-md-offset-8 col-lg-2 col-md-2 col-sm-2 col-sm-offset-8 col-xs-4 col-xs-offset-4 {{mk_produits.has_next|yesno:',disabled'}}">Suivant</a>               
+</div>
 </div>
 </div>
 </div>

@@ -7,6 +7,17 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 import collections
+import os
+import time
+from django.core.files.storage import FileSystemStorage
+from pathlib import Path
+
+from PIL import Image
+
+def mk_resize_image(path,name):
+
+    return True
+    
     
 def mk_fournisseur_form(request):
     mk_partenaires = Partenaire.objects.all()
@@ -81,7 +92,8 @@ def mk_fournisseur_page(request):
     mk_partenaires = Partenaire.objects.all()
     mk_services    = Service.objects.all()
 
-    if request.user.is_authenticated :    
+    if request.user.is_authenticated :  
+        action = 0  
         if request.method == 'POST' :
             product1 = ProduitForm1(request.POST, request.FILES)
             product2 = ProduitForm2(request.POST, request.FILES)
@@ -100,8 +112,8 @@ def mk_fournisseur_page(request):
                 made_in     = product2.cleaned_data['made_in']
                 pp          = product2.cleaned_data['pp']
                 categorie_produit = product2.cleaned_data['categorie_produit']
-
-                            
+                current_fournisseur = Fournisseur.objects.get(login=request.user.username)
+                image.name = intitule+'-'+str(time.time())+'.png'          
                 produit     = Produit(
                     intitule=intitule,
                     prix= prix,
@@ -126,7 +138,24 @@ def mk_fournisseur_page(request):
                 paginator     = Paginator(products, 10)
                 page_number   = request.GET.get('page')
                 products      = paginator.get_page(page_number)
-        
+                
+                # bloc du script de redimentionnement des images de produit
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                
+                #chemin = Path(os.path.join(BASE_DIR, 'media/mk_produits'))
+                #print(chemin)
+                #fs = FileSystemStorage(location=chemin)
+                #nom = image.name
+                size = (225,225)
+                path = os.path.join(BASE_DIR, 'media/mk_produits/'+image.name.replace(' ', '_'))
+                img = Image.open(path)
+                image_r = img.resize(size)
+                image_r.save(path)
+                #image = mk_resize_image(os.path.join(BASE_DIR,'/media/mk_produits/'),image.name)
+                #print(image.size)
+                #file_name = fs.save(nom, image)
+                form_products1 = ProduitForm1()
+                form_products2 = ProduitForm2()
         else :
             categories     = CategorieProduit.objects.all()
             form_products1 = ProduitForm1()
@@ -156,7 +185,7 @@ def mk_fournisseur_page(request):
                     d_produit = Produit.objects.get(id=produit_id)
                     if d_produit is not None :
                         d_produit.delete()
-                except BaseExsception :
+                except BaseException :
                     return redirect('/fournisseur/page')
             try :
                 current_fournisseur = Fournisseur.objects.get(login=request.user.username)
@@ -195,6 +224,7 @@ def mk_fournisseur_page(request):
             except BaseException as e:
                 logout(request)
                 return redirect('/fournisseur/login')  
+        
                         
         return render(request, 'fournisseur_page.html', locals())
     else :

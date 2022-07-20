@@ -9,8 +9,7 @@ from django.db.models import Q, Max
 import datetime
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-
-
+import threading
 # fonction d'authentification d'un utilisateur à la base de données
 def mk_client_login(request):
     mk_partenaires = Partenaire.objects.all()
@@ -126,6 +125,7 @@ def mk_client_page(request):
             for entre in paniers:
                 balance += entre.produit.prix*entre.quantite
         except Exception as e:
+            logout(request)
             return redirect('/client/login')
             
 

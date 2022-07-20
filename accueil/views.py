@@ -3,29 +3,54 @@ from accueil.models import *
 import json
 from django.contrib.auth import logout
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 # Create your views here.
 PRODUIT     = []
 NEW_PRODUIT = []
 PARTENAIRE  = []
 SERVICE     = []
+# fonctions utiles pour compter le nombre de visite sur le site
+def vue():
+    with open('accueil/compteur.txt','r') as file :
+        vu = int(file.readline())
+        file.close()
+    return vu
+def get_nombre_vue():
+    with open('accueil/compteur.txt','r') as file:
+        nb = int(file.readline())
+        nb += 1
+        file.close()
+    with open('accueil/compteur.txt','w') as write_file :
+        write_file.write(str(nb))
+
+        write_file.close()
+
+    return nb
 
 def mk_index(request):
     global PRODUIT, NEW_PRODUIT, PARTENAIRE, SERVICE
     mk_categories  = CategorieProduit.objects.all()
     mk_produits    = Produit.objects.all()
+    mk_first_produits = mk_produits[:1]
+    mk_produits       = mk_produits.order_by("-vue")
+   
+    paginator      = Paginator(mk_produits, 2)
+    page_number    = request.GET.get('page')
+    mk_produits    = paginator.get_page(page_number)
+                
+    
     mk_partenaires = Partenaire.objects.all()
     PRODUIT        = mk_produits
     PARTENAIRE     = mk_partenaires
     mk_services    = Service.objects.all()
     SERVICE        = mk_services
     mk_pubs        = Publicite.objects.all()
+    nombre_de_vu = get_nombre_vue()
     mk_news_products= Produit.objects.order_by('-id')
     NEW_PRODUIT    = mk_news_products
     if(mk_pubs.count()>0): first_pub      = mk_pubs[0]
     mk_pubs        = mk_pubs[1:]
 
-    mk_first_produits = mk_produits[:1]
-    mk_produits       = mk_produits.order_by("-vue")[:10]
     try:
         mk_filtre_width   = 100 / len(mk_categories) * 5
     except ZeroDivisionError:
