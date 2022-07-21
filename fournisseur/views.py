@@ -126,6 +126,21 @@ def mk_fournisseur_page(request):
                 paginator     = Paginator(products, 10)
                 page_number   = request.GET.get('page')
                 products      = paginator.get_page(page_number)
+                # bloc du script de redimentionnement des images de produit
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                
+                #chemin = Path(os.path.join(BASE_DIR, 'media/mk_produits'))
+                #print(chemin)
+                #fs = FileSystemStorage(location=chemin)
+                #nom = image.name
+                size = (225,225)
+                path = os.path.join(BASE_DIR, 'media/mk_produits/'+image.name.replace(' ', '_'))
+                img = Image.open(path)
+                image_r = img.resize(size)
+                image_r.save(path)
+                
+                form_products1 = ProduitForm1()
+                form_products2 = ProduitForm2()
         
         else :
             categories     = CategorieProduit.objects.all()
