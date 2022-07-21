@@ -228,10 +228,3 @@ class ReservationPlat(models.Model):
     
     def __str__(self):
         return self.plat.nom
-    
-class Like(models.Model):
-    consommateur = models.ForeignKey(Consommateur, on_delete=models.CASCADE)
-    produit      = models.ForeignKey(Produit,on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.consommateur.nom + " a liker " + self.produit.intitule
