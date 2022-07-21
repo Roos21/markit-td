@@ -13,6 +13,28 @@
     <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}" defer></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}" defer></script>
     <script type="text/javascript" src="/static/js/mk_js.js"></script>
+    <style>
+        @media(max-width:450px){
+            .footer-hidden{
+                display:none;
+            }
+        }
+        @media(max-width:500px){
+            .footer-hidden{
+                display:none;
+            }
+        }
+        @media(max-width:360px){
+            .footer-hidden{
+                display:none;
+            }
+        }
+        @media(max-width:390px){
+            .footer-hidden{
+                display:none;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -191,7 +213,7 @@
     </div>
     <div class="row bg-dark fixed-bottom" id="footer">
         <div class="container">
-            <div class="row ">
+            <div class="row footer-hidden">
                 <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
                     <h3>Nos partenaires</h3>
                     {% for partenaire in mk_partenaires %}
