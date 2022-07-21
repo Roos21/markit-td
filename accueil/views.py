@@ -34,7 +34,7 @@ def mk_index(request):
     mk_first_produits = mk_produits[:1]
     mk_produits       = mk_produits.order_by("-vue")
    
-    paginator      = Paginator(mk_produits, 2)
+    paginator      = Paginator(mk_produits, 20)
     page_number    = request.GET.get('page')
     mk_produits    = paginator.get_page(page_number)
                 

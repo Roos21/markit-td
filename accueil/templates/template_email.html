@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail</title>
+</head>
+<body>
+    <h1>{{nom}}</h1>
+    <div class="col-lg-offset-1">
+        <h2>Markit votre partenaire de course</h2>
+        
+        <table class="table table-bordered">
+            <tr><td>Produits</td><td>Quantité</td><td>Prix par quantite</td></tr>
+            {% for produit in produits%}
+                <tr>
+                    <td>{{produit.intitule}}</td>
+                    <td>{{produit.quantite}}</td>
+                    <td>{{produit.total}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p class="alert alert-success"> <strong> Total </strong> = {{addition}}</p>
+    </div>
+</body>
+</html>

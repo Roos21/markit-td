@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
+from client.views import mk_commander
 
 from accueil import views
 
@@ -29,6 +30,7 @@ urlpatterns = [
     path('', include('services.urls')),
     path('', include('fournisseur.urls')),
     path('restaurant/',include('restaurant.urls')),
+    path('reserver/',mk_commander)
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

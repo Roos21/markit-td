@@ -90,6 +90,7 @@ WSGI_APPLICATION = 'Markit.wsgi.application'
 #   }
 #}
 #if DEBUG == False:
+"""
 DATABASES = {
 'default': {
     'ENGINE': 'django.db.backends.postgresql',
@@ -100,9 +101,9 @@ DATABASES = {
     'PORT': '5432',
     }
 }
- 
-#else:"""
-"""DATABASES = {
+"""
+'''
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'my_db',
@@ -111,8 +112,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
         }
-    }"""
-
+    }
+'''
+DATABASES = {
+    'default':dj_database_url.config()
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

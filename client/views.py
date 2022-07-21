@@ -9,7 +9,31 @@ from django.db.models import Q, Max
 import datetime
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
 import threading
+from django.conf import settings  
+
+# fonction d'envoie de mail aux client et fournisseur de Smart Tech
+
+
+def mk_send_mail_api(context_data,user_mail):
+    html_tpl_paht = 'accueil/templates/template_email.html'
+    email_html_template = get_template(html_tpl_paht).render(context_data)
+    receiver_email = user_mail
+    email_msg = EmailMessage('Facture de votre commande',
+                             email_html_template,
+                             settings.APPLICATION_EMAIL,
+                             [receiver_email,
+                              'markit18td@gmail.com'
+                              ,'baletkoyahbesamson@gmail.com',
+                              'bourkouelie11@gmail.com'
+                              ],
+                             reply_to=[settings.APPLICATION_EMAIL]
+                            )
+    email_msg.content_subtype = 'html'
+    email_msg.send(fail_silently=False)
+    
 # fonction d'authentification d'un utilisateur à la base de données
 def mk_client_login(request):
     mk_partenaires = Partenaire.objects.all()
@@ -194,6 +218,17 @@ def mk_client_abandonner(request):
         print("Panier does not exist")
     return render(request,'page_client.html',locals())
 
+# classe Raw pour permettre de construire le html pour l'envoie de mail
+
+class Raw():
+    def __init__(self,p,qte,total):
+        self.produit = p
+        self.quantite = qte
+        self.total = total
+    def __str__(self):
+        
+        return '⎢->'+self.produit.intitule+'    '+self.quantite+'*'+self.produit.prix+'     '+self.produit.prix*self.quantite
+
 def mk_commander(request):
     try :
         id_client =request.POST.get('client')
@@ -205,6 +240,8 @@ def mk_commander(request):
         livreur = Livreur.objects.get(id=1)
         ok = 0
         if int(livre) ==  1:
+            p_list = []
+            total = 0
             for p in panier:
                 reservation = Resrevation(
                     client=client,
@@ -213,10 +250,27 @@ def mk_commander(request):
                     produit=p.produit,
                     quantite=p.quantite
                 )
+                raw = Raw(p.produit,p.quantite,p.produit.prix*p.quantite)
+                p_list.append(raw)
                 reservation.save()
+                total += p.produit.prix * p.quantite
                 p.delete()
             ok=1
+            context_data = {
+                'produits':p_list,
+                'nom':client.nom+" "+client.prenom,
+                'addition':total
+            }
+            
+            try :
+                mk_send_mail_api(context_data,client.email)
+                print("Mail send")
+                
+            except Exception as e :
+                print(e)
         elif int(livre) == 2:
+            p_list = []
+            total = 0
             for p in panier:
                 reservation = Resrevation(
                     client=client,
@@ -226,11 +280,27 @@ def mk_commander(request):
                     quantite=p.quantite,
                     livrer=2
                 )
+                raw = Raw(p.produit,p.quantite,p.produit.prix*p.quantite)
+                p_list.append(raw)
                 reservation.save()
+                total += p.produit.prix * p.quantite
                 p.delete() 
             ok = 2
+            context_data = {
+                'produits':p_list,
+                'nom':client.nom+" "+client.prenom,
+                'addition':total
+            }
+            
+            try :
+                mk_send_mail_api(context_data,client.email)
+                print("Mail send")
+                
+            except Exception as e :
+                print(e)
         elif int(livre) == 3:
             produit = ""
+            p_list = []
             total = 0
             for p in panier:
                 reservation = Resrevation(
@@ -241,20 +311,36 @@ def mk_commander(request):
                     quantite=p.quantite,
                     livrer=3
                 )
+                raw = Raw(p.produit,p.quantite,p.produit.prix*p.quantite)
+                p_list.append(raw)
                 reservation.save()
                 total += p.produit.prix * p.quantite
                 produit += p.produit.intitule+"\n"
                 p.delete() 
             ok = 3
             
+            context_data = {
+                'produits':p_list,
+                'nom':client.nom+" "+client.prenom,
+                'addition':total
+            }
+            
+            try :
+                mk_send_mail_api(context_data,client.email)
+                print("Mail send")
+                
+            except Exception as e :
+                print(e)
+             
+            '''
             send_mail(
                 'Markit commande',
                 produit + 'Total : ' + total + 'F CFA',
-                'baletkoyahbesamson@gmail.com',
+                'markit18td@gmail.com',
                 [client.email],
                 fail_silently=False,
             )
-            
+            '''
     except Exception as e:
         print("ERROR at client_commander %s"%e)
     mk_partenaires = Partenaire.objects.all()
