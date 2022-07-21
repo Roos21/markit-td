@@ -100,7 +100,8 @@ def mk_fournisseur_page(request):
                 made_in     = product2.cleaned_data['made_in']
                 pp          = product2.cleaned_data['pp']
                 categorie_produit = product2.cleaned_data['categorie_produit']
-
+                current_fournisseur = Fournisseur.objects.get(login=request.user.username)
+                image.name = intitule+'-'+str(time.time())+'.png' 
                             
                 produit     = Produit(
                     intitule=intitule,
