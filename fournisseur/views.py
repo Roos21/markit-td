@@ -147,7 +147,7 @@ def mk_fournisseur_page(request):
                 #fs = FileSystemStorage(location=chemin)
                 #nom = image.name
                 size = (225,225)
-                path = os.path.join(BASE_DIR, 'media/mk_produits/'+image.name.replace(' ', '_'))
+                path = os.path.join(BASE_DIR, 'accueil/static/media/mk_produits/'+image.name.replace(' ', '_'))
                 img = Image.open(path)
                 image_r = img.resize(size)
                 image_r.save(path)
